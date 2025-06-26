@@ -132,9 +132,14 @@
         const searchUrls = {
             google: "https://www.google.com/search?q=",
             bing: "https://www.bing.com/search?q=",
-            baidu: "https://www.baidu.com/s?wd=",
-            xiaohongshu: "xhsdiscover://search/result?keyword="
+            baidu: "https://www.baidu.com/s?wd="
+            // 小红书的 URL 在 search 函数中动态生成
         };
+
+        // 判断是否为移动端
+        function isMobile() {
+            return /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+        }
 
         function search(engine) {
             const keyword = document.getElementById('searchInput').value.trim();
@@ -142,11 +147,17 @@
                 document.getElementById('searchInput').focus();
                 return;
             }
-            let url = searchUrls[engine] + encodeURIComponent(keyword);
+            let url;
             if (engine === 'xiaohongshu') {
-                // scheme 跳转
+                // If mobile, use scheme; else use web URL
+                if (isMobile()) {
+                    url = 'xhsdiscover://search/result?keyword=' + encodeURIComponent(keyword);
+                } else {
+                    url = 'https://www.xiaohongshu.com/search_result?keyword=' + encodeURIComponent(keyword);
+                }
                 window.location.href = url;
             } else {
+                url = searchUrls[engine] + encodeURIComponent(keyword);
                 window.open(url, '_blank');
             }
         }
