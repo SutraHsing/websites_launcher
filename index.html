@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>导航网站 - 搜索引擎聚合</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f7f7f7;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            margin-top: 80px;
+            background: #fff;
+            padding: 40px 30px 30px 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            width: 100%;
+            max-width: 420px;
+        }
+        .search-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .search-input {
+            flex: 1;
+            padding: 12px 16px;
+            font-size: 18px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            outline: none;
+            transition: border 0.2s;
+        }
+        .search-input:focus {
+            border: 1.5px solid #4a90e2;
+        }
+        .engines {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 24px;
+        }
+        .engine {
+            cursor: pointer;
+            transition: transform 0.1s;
+            border-radius: 8px;
+            padding: 6px;
+        }
+        .engine:hover {
+            background: #f0f0f0;
+            transform: scale(1.08);
+        }
+        .engine img {
+            width: 38px;
+            height: 38px;
+            display: block;
+        }
+        .engine-label {
+            text-align: center;
+            font-size: 13px;
+            color: #666;
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="search-box">
+            <input id="searchInput" class="search-input" type="text" placeholder="输入关键词，点击Logo搜索..." autofocus />
+        </div>
+        <div class="engines">
+            <div class="engine" onclick="search('google')">
+                <img src="https://www.google.com/favicon.ico" alt="Google">
+                <div class="engine-label">Google</div>
+            </div>
+            <div class="engine" onclick="search('bing')">
+                <img src="https://www.bing.com/sa/simg/favicon-2x.ico" alt="Bing">
+                <div class="engine-label">Bing</div>
+            </div>
+            <div class="engine" onclick="search('baidu')">
+                <img src="https://www.baidu.com/favicon.ico" alt="Baidu">
+                <div class="engine-label">百度</div>
+            </div>
+            <div class="engine" onclick="search('xiaohongshu')">
+                <img src="https://www.xiaohongshu.com/favicon.ico" alt="小红书">
+                <div class="engine-label">小红书</div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const searchUrls = {
+            google: "https://www.google.com/search?q=",
+            bing: "https://www.bing.com/search?q=",
+            baidu: "https://www.baidu.com/s?wd=",
+            xiaohongshu: "xhsdiscover://search/result?keyword="
+        };
+
+        function search(engine) {
+            const keyword = document.getElementById('searchInput').value.trim();
+            if (!keyword) {
+                document.getElementById('searchInput').focus();
+                return;
+            }
+            let url = searchUrls[engine] + encodeURIComponent(keyword);
+            if (engine === 'xiaohongshu') {
+                // scheme 跳转
+                window.location.href = url;
+            } else {
+                window.open(url, '_blank');
+            }
+        }
+
+        document.getElementById('searchInput').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                search('bing');
+            }
+        });
+    </script>
+</body>
+</html> 
