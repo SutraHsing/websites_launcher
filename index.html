@@ -134,6 +134,10 @@
                 <img src="https://www.douban.com/favicon.ico" alt="豆瓣">
                 <div class="engine-label">豆瓣</div>
             </div>
+            <div class="engine" onclick="search('taobao')">
+                <img src="https://www.taobao.com/favicon.ico" alt="淘宝">
+                <div class="engine-label">淘宝</div>
+            </div>
         </div>
     </div>
     <script>
@@ -170,6 +174,14 @@
                     url = 'https://m.douban.com/search/?query=' + encodeURIComponent(keyword);
                 } else {
                     url = 'https://www.douban.com/search?q=' + encodeURIComponent(keyword);
+                }
+                window.open(url, '_blank');
+            } else if (engine === 'taobao') {
+                // 淘宝搜索，移动端和web端不同
+                if (isMobile()) {
+                    url = 'https://main.m.taobao.com/search/index.html?q=' + encodeURIComponent(keyword);
+                } else {
+                    url = 'https://s.taobao.com/search?q=' + encodeURIComponent(keyword);
                 }
                 window.open(url, '_blank');
             } else {
