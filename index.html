@@ -112,6 +112,7 @@
     <div class="container">
         <div class="search-box">
             <input id="searchInput" class="search-input" type="text" placeholder="输入关键词，点击Logo搜索..." autofocus />
+            <span id="clearBtn" style="display:none;cursor:pointer;font-size:20px;color:#bbb;margin-left:-30px;margin-right:10px;user-select:none;" onclick="clearInput()">×</span>
         </div>
         <div class="engines">
             <div class="engine" onclick="search('google')">
@@ -195,6 +196,22 @@
                 search('bing');
             }
         });
+
+        // 清除按钮逻辑
+        const searchInput = document.getElementById('searchInput');
+        const clearBtn = document.getElementById('clearBtn');
+        searchInput.addEventListener('input', function() {
+            if (this.value.length > 0) {
+                clearBtn.style.display = 'inline';
+            } else {
+                clearBtn.style.display = 'none';
+            }
+        });
+        function clearInput() {
+            searchInput.value = '';
+            clearBtn.style.display = 'none';
+            searchInput.focus();
+        }
     </script>
 </body>
 </html> 
