@@ -167,7 +167,7 @@
             } else if (engine === 'douban') {
                 // 豆瓣搜索，移动端和web端不同
                 if (isMobile()) {
-                    url = 'https://m.douban.com/search/?q=' + encodeURIComponent(keyword);
+                    url = 'https://m.douban.com/search/?query=' + encodeURIComponent(keyword);
                 } else {
                     url = 'https://www.douban.com/search?q=' + encodeURIComponent(keyword);
                 }
