@@ -139,6 +139,10 @@
                 <img src="https://www.taobao.com/favicon.ico" alt="淘宝">
                 <div class="engine-label">淘宝</div>
             </div>
+            <div class="engine" onclick="search('jd')">
+                <img src="https://www.jd.com/favicon.ico" alt="京东">
+                <div class="engine-label">京东</div>
+            </div>
         </div>
     </div>
     <script>
@@ -185,6 +189,16 @@
                     url = 'https://s.taobao.com/search?q=' + encodeURIComponent(keyword);
                 }
                 window.open(url, '_blank');
+            } else if (engine === 'jd') {
+                // 京东搜索，移动端用 URL Scheme，PC 端用网页
+                if (isMobile()) {
+                    const params = encodeURIComponent(JSON.stringify({des: 'productList', keyWord: keyword, from: 'search', category: 'jump'}));
+                    url = 'openapp.jdmobile://virtual?params=' + params;
+                    window.location.href = url;
+                } else {
+                    url = 'https://search.jd.com/Search?keyword=' + encodeURIComponent(keyword);
+                    window.open(url, '_blank');
+                }
             } else {
                 url = searchUrls[engine] + encodeURIComponent(keyword);
                 window.open(url, '_blank');
