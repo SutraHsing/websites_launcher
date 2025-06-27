@@ -143,6 +143,10 @@
                 <img src="https://www.jd.com/favicon.ico" alt="京东">
                 <div class="engine-label">京东</div>
             </div>
+            <div class="engine" onclick="search('dianping')">
+                <img src="https://www.dianping.com/favicon.ico" alt="大众点评">
+                <div class="engine-label">大众点评</div>
+            </div>
         </div>
     </div>
     <script>
@@ -197,6 +201,15 @@
                     window.location.href = url;
                 } else {
                     url = 'https://search.jd.com/Search?keyword=' + encodeURIComponent(keyword);
+                    window.open(url, '_blank');
+                }
+            } else if (engine === 'dianping') {
+                // 大众点评，移动端用 scheme，PC 端用网页
+                if (isMobile()) {
+                    url = 'dianping://searchshoplist?keyword=' + encodeURIComponent(keyword);
+                    window.location.href = url;
+                } else {
+                    url = 'https://www.dianping.com/search/keyword/1/0_' + encodeURIComponent(keyword);
                     window.open(url, '_blank');
                 }
             } else {
