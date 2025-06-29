@@ -143,9 +143,9 @@
                 <img src="https://www.jd.com/favicon.ico" alt="京东">
                 <div class="engine-label">京东</div>
             </div>
-            <div class="engine" onclick="search('dianping')">
-                <img src="https://www.dianping.com/favicon.ico" alt="大众点评">
-                <div class="engine-label">大众点评</div>
+            <div class="engine" id="dianpingEngine" onclick="search('dianping')">
+                <img id="dianpingLogo" src="https://www.dianping.com/favicon.ico" alt="大众点评">
+                <div class="engine-label" id="dianpingLabel">大众点评</div>
             </div>
         </div>
     </div>
@@ -161,6 +161,23 @@
         function isMobile() {
             return /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
         }
+
+        // 根据设备类型切换大众点评/美团的logo和名称
+        function updateDianpingEngine() {
+            const logo = document.getElementById('dianpingLogo');
+            const label = document.getElementById('dianpingLabel');
+            if (isMobile()) {
+                logo.src = 'https://www.meituan.com/favicon.ico';
+                logo.alt = '美团';
+                label.textContent = '美团';
+            } else {
+                logo.src = 'https://www.dianping.com/favicon.ico';
+                logo.alt = '大众点评';
+                label.textContent = '大众点评';
+            }
+        }
+        updateDianpingEngine();
+        window.addEventListener('resize', updateDianpingEngine);
 
         function search(engine) {
             const keyword = document.getElementById('searchInput').value.trim();
@@ -204,12 +221,12 @@
                     window.open(url, '_blank');
                 }
             } else if (engine === 'dianping') {
-                // 大众点评，移动端用 scheme，PC 端用网页
+                // web端用大众点评2/0_，移动端用美团scheme
                 if (isMobile()) {
-                    url = 'dianping://searchshoplist?keyword=' + encodeURIComponent(keyword);
+                    url = 'imeituan://www.meituan.com/search' + encodeURIComponent(keyword);
                     window.location.href = url;
                 } else {
-                    url = 'https://www.dianping.com/search/keyword/1/0_' + encodeURIComponent(keyword);
+                    url = 'https://www.dianping.com/search/keyword/2/0_' + encodeURIComponent(keyword);
                     window.open(url, '_blank');
                 }
             } else {
