@@ -109,6 +109,9 @@
     </style>
 </head>
 <body>
+    <div class="weather-box" id="weatherBox" style="display:flex;align-items:center;justify-content:center;margin-bottom:18px;font-size:15px;color:#333;min-height:32px;">
+        <span id="weatherLoading">正在获取天气...</span>
+    </div>
     <div class="container">
         <div class="search-box">
             <input id="searchInput" class="search-input" type="text" placeholder="输入关键词，点击Logo搜索..." autofocus />
@@ -269,6 +272,29 @@
             clearBtn.style.display = 'none';
             searchInput.focus();
         }
+
+        // Weather display logic
+        const AMAP_KEY = (typeof AMAP_KEY !== 'undefined') ? AMAP_KEY : 'AMAP_KEY'; // Placeholder, replace with your env var
+        async function fetchWeather() {
+            const weatherBox = document.getElementById('weatherBox');
+            const loading = document.getElementById('weatherLoading');
+            try {
+                // Step 1: Get city adcode by IP
+                const ipRes = await fetch(`https://restapi.amap.com/v3/ip?key=${AMAP_KEY}`);
+                const ipData = await ipRes.json();
+                if (ipData.status !== '1' || !ipData.adcode) throw new Error('定位失败');
+                // Step 2: Get live weather by adcode
+                const weatherRes = await fetch(`https://restapi.amap.com/v3/weather/weatherInfo?city=${ipData.adcode}&extensions=base&output=JSON&key=${AMAP_KEY}`);
+                const weatherData = await weatherRes.json();
+                if (weatherData.status !== '1' || !weatherData.lives || !weatherData.lives.length) throw new Error('天气获取失败');
+                const live = weatherData.lives[0];
+                // Display weather info
+                weatherBox.innerHTML = `${live.city || live.province}：${live.weather}，${live.temperature}℃，${live.winddirection}${live.windpower}级，湿度${live.humidity}% <span style='color:#aaa;font-size:12px;margin-left:8px;'>${live.reporttime.replace(/\d{4}-/g, '').replace(/:00$/, '')}</span>`;
+            } catch (e) {
+                weatherBox.innerHTML = `<span style='color:#c00;'>天气信息获取失败</span>`;
+            }
+        }
+        fetchWeather();
     </script>
 </body>
 </html> 
