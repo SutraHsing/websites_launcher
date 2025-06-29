@@ -147,6 +147,10 @@
                 <img id="dianpingLogo" src="https://www.dianping.com/favicon.ico" alt="大众点评">
                 <div class="engine-label" id="dianpingLabel">大众点评</div>
             </div>
+            <div class="engine" onclick="search('zhihu')">
+                <img src="https://static.zhihu.com/heifetz/favicon.ico" alt="知乎">
+                <div class="engine-label">知乎</div>
+            </div>
         </div>
     </div>
     <script>
@@ -227,6 +231,15 @@
                     window.location.href = url;
                 } else {
                     url = 'https://www.dianping.com/search/keyword/2/0_' + encodeURIComponent(keyword);
+                    window.open(url, '_blank');
+                }
+            } else if (engine === 'zhihu') {
+                // 知乎搜索，移动端用 scheme，web 端用网页
+                if (isMobile()) {
+                    url = 'zhihu://search?q=' + encodeURIComponent(keyword);
+                    window.location.href = url;
+                } else {
+                    url = 'https://www.zhihu.com/search?type=content&q=' + encodeURIComponent(keyword);
                     window.open(url, '_blank');
                 }
             } else {
