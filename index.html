@@ -227,7 +227,7 @@
             } else if (engine === 'dianping') {
                 // web端用大众点评2/0_，移动端用美团scheme
                 if (isMobile()) {
-                    url = 'imeituan://www.meituan.com/search' + encodeURIComponent(keyword);
+                    url = 'imeituan://www.meituan.com/search?q=' + encodeURIComponent(keyword);
                     window.location.href = url;
                 } else {
                     url = 'https://www.dianping.com/search/keyword/2/0_' + encodeURIComponent(keyword);
